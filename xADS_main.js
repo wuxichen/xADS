@@ -161,6 +161,66 @@
 
 
     /**
+     * 遍历DOM树，利用通配符*
+     * func -- 每个节点调用函数，node -- 根节点
+     * */
+    function walkElementsLinear( func, node ) {
+        var root = node || window.document;
+        var nodes = root.getElementsByTagName('*');
+        for (var i = 0; i < nodes.length; i++) {
+            func.call(nodes[i]);
+        }
+    }
+
+    window['xADS']['walkElementsLinear'] = walkElementsLinear;
+
+
+    /**
+     * 遍历DOM树，递归调用
+     * func -- 每个节点调用函数，node -- 根节点，depth -- 递归深度，returnedFromParent -- 父节点调用func返回的信息
+     * */
+    function walkTheDOMRecursive( func, node, depth, returnedFromParent ) {
+        var root = node || window.document;
+        var returnedFromParent = func.call(root, depth++, returnedFromParent);
+        var node = root.firstChild;
+
+        while (node) {
+            walkTheDOMRecursive(func, node, depth, returnedFromParent);
+            node = node.nextSibling;
+        }
+    }
+
+    window['xADS']['walkTheDOMRecursive'] = walkTheDOMRecursive;
+
+
+    /**
+     * 遍历DOM树，包括其属性节点
+     * func -- 每个节点调用函数，node -- 根节点，depth -- 递归深度，returnedFromParent -- 父节点调用func返回的信息
+     * */
+    function walkTheDOMWithAttributes( func, node, depth, returnedFromParent ) {
+        var root = node || window.document;
+        returnedFromParent = func(root, depth++, returnedFromParent);
+
+        if (root.attributes) {
+            for (var i = 0; i < root.attributes.length; i++) {
+                walkTheDOMWithAttributes(func, root.attributes[i], depth-1, returnedFromParent);
+            }
+        }
+
+        if (root.nodeType != Node.ATTRIBUTE_NODE) {
+            // TODO 改为 xADS.node.ATTRIBUTE_NODE
+            node = root.firstChild;
+            while (node) {
+                walkTheDOMWithAttributes(func, node, depth, returnedFromParent);
+                node = node.nextSibling;
+            }
+        }
+    }
+
+    window['xADS']['walkTheDOMWithAttributes'] = walkTheDOMWithAttributes;
+
+
+    /**
      * 绑定事件
      * node -- 绑定对象，type -- 事件类型，listener -- 事件回调函数
      * */
