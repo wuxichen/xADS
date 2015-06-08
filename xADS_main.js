@@ -207,8 +207,7 @@
             }
         }
 
-        if (root.nodeType != Node.ATTRIBUTE_NODE) {
-            // TODO 改为 xADS.node.ATTRIBUTE_NODE
+        if (root.nodeType != xADS.node.ATTRIBUTE_NODE) {
             node = root.firstChild;
             while (node) {
                 walkTheDOMWithAttributes(func, node, depth, returnedFromParent);
