@@ -50,6 +50,8 @@
      * 可传递实参 多个id
      * */
     function $() {
+        if (!isCompatible()) { return false; }
+
         var elements = new Array();
 
         for (var i = 0; i < arguments.length; i++) {
@@ -81,6 +83,8 @@
      * className -- 类名，tag -- 标签名，parent -- 以该元素为根进行查找
      * */
     function getElementsByClassName( className, tag, parent ) {
+        if (!isCompatible()) { return false; }
+
         parent = parent || document;
         if (!(parent = $(parent))) { return false; }
 
@@ -111,6 +115,8 @@
      * node -- 新元素，referenceNode -- 插在该元素后面
      * */
     function insertAfter( node, referenceNode ) {
+        if (!isCompatible()) { return false; }
+
         if (!(node = $(node))) { return false; }
         if (!(referenceNode = $(referenceNode))) { return false; }
 
@@ -125,6 +131,8 @@
      * parent -- 新元素的父节点，newChild -- 新元素
      * */
     function prependChild( parent, newChild ) {
+        if (!isCompatible()) { return false; }
+
         if (!(parent = $(parent))) { return false; }
         if (!(newChild = $(newChild))) { return false; }
 
@@ -147,6 +155,7 @@
      * parent -- 父节点，删除其所有子节点
      * */
     function removeChildren(parent) {
+        if (!isCompatible()) { return false; }
         if (!(parent = $(parent))) { return false; }
 
         while (parent.firstChild) {
@@ -165,6 +174,8 @@
      * func -- 每个节点调用函数，node -- 根节点
      * */
     function walkElementsLinear( func, node ) {
+        if (!isCompatible()) { return false; }
+
         var root = node || window.document;
         var nodes = root.getElementsByTagName('*');
         for (var i = 0; i < nodes.length; i++) {
@@ -180,6 +191,8 @@
      * func -- 每个节点调用函数，node -- 根节点，depth -- 递归深度，returnedFromParent -- 父节点调用func返回的信息
      * */
     function walkTheDOMRecursive( func, node, depth, returnedFromParent ) {
+        if (!isCompatible()) { return false; }
+
         var root = node || window.document;
         var returnedFromParent = func.call(root, depth++, returnedFromParent);
         var node = root.firstChild;
@@ -198,6 +211,8 @@
      * func -- 每个节点调用函数，node -- 根节点，depth -- 递归深度，returnedFromParent -- 父节点调用func返回的信息
      * */
     function walkTheDOMWithAttributes( func, node, depth, returnedFromParent ) {
+        if (!isCompatible()) { return false; }
+
         var root = node || window.document;
         returnedFromParent = func(root, depth++, returnedFromParent);
 
@@ -220,32 +235,11 @@
 
 
     /**
-     * 绑定事件
-     * node -- 绑定对象，type -- 事件类型，listener -- 事件回调函数
-     * */
-    function addEvent( node, type, listener ) {
-        //TODO 绑定事件
-    }
-
-    window['xADS']['addEvent'] = addEvent;
-
-
-    /**
-     * 解除事件绑定
-     * node -- 绑定的对象，type -- 事件类型，listener -- 事件回调函数
-     * */
-    function removeEvent( node, type, listener ) {
-        //TODO 解除绑定事件
-    }
-
-    window['xADS']['removeEvent'] = removeEvent;
-
-
-    /**
      * 切换DOM元素的可见性display
      * node -- 元素，value -- 设置可见性display的非none值
      * */
     function toggleDisplay( node, value ) {
+        if (!isCompatible()) { return false; }
         if (!(node = $(node))) { return false; }
 
         if (node.style.display !== 'none') {
