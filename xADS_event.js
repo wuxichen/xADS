@@ -1,7 +1,7 @@
 /**
- * Created by lenovo on 2015/6/6.
- * JavaScript À©Õ¹»ù´¡DOM²Ù×÷¿â
- * ÊÂ¼şÏà¹Ø¿â
+ * Created by lenovo on 2015/6/8.
+ * JavaScript æ‰©å±•åŸºç¡€DOMæ“ä½œåº“
+ * äº‹ä»¶ç›¸å…³åº“
  */
 
 (function() {
@@ -11,20 +11,20 @@
     }
 
     /**
-     * °ó¶¨ÊÂ¼ş
-     * node -- °ó¶¨¶ÔÏó£¬type -- ÊÂ¼şÀàĞÍ£¬listener -- ÊÂ¼ş»Øµ÷º¯Êı
+     * ç»‘å®šäº‹ä»¶
+     * node -- ç»‘å®šå¯¹è±¡ï¼Œtype -- äº‹ä»¶ç±»å‹ï¼Œlistener -- äº‹ä»¶å›è°ƒå‡½æ•°
      * */
     function addEvent( node, type, listener ) {
         if (!isCompatible()) { return false; }
         if (!(node = $(node))) { return false; }
 
         if (node.addEventListener) {
-            // W3C ·½·¨
+            // W3C æ–¹æ³•
             node.addEventListener(type, listener, false);
             return true;
 
         } else if (node.attachEvent) {
-            // MSIE ·½·¨
+            // MSIE æ–¹æ³•
             node['e' + type + listener] = listener;
             node[type + listener] = function() {
                 node['e' + type + listener](window.event);
@@ -40,20 +40,20 @@
 
 
     /**
-     * ½â³ıÊÂ¼ş°ó¶¨
-     * node -- °ó¶¨µÄ¶ÔÏó£¬type -- ÊÂ¼şÀàĞÍ£¬listener -- ÊÂ¼ş»Øµ÷º¯Êı
+     * è§£é™¤äº‹ä»¶ç»‘å®š
+     * node -- ç»‘å®šçš„å¯¹è±¡ï¼Œtype -- äº‹ä»¶ç±»å‹ï¼Œlistener -- äº‹ä»¶å›è°ƒå‡½æ•°
      * */
     function removeEvent( node, type, listener ) {
         if (!isCompatible()) { return false; }
         if (!(node = $(node))) { return false; }
 
         if (node.removeEventListener) {
-            // W3C ·½·¨
+            // W3C æ–¹æ³•
             node.removeEventListener(type, listener, false);
             return true;
 
         } else if (node.detachEvent) {
-            // MSIE ·½·¨
+            // MSIE æ–¹æ³•
             node.detachEvent('on'+type, node[type+listener]);
             node[type + listener] = null;
             return true;
@@ -66,8 +66,8 @@
 
 
     /**
-     * ×èÖ¹ÊÂ¼şÃ°Åİ
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * é˜»æ­¢äº‹ä»¶å†’æ³¡
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function stopPropagation( eventObject ) {
         if (!isCompatible()) { return false; }
@@ -84,8 +84,8 @@
 
 
     /**
-     * È¡ÏûÊÂ¼şµÄÄ¬ÈÏ¶¯×÷
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * å–æ¶ˆäº‹ä»¶çš„é»˜è®¤åŠ¨ä½œ
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function preventDefault( eventObject ) {
         if (!isCompatible()) { return false; }
@@ -102,38 +102,38 @@
 
 
     /**
-     * LoadÊÂ¼şÔÚDOMÊ÷½á¹¹½¨ÍêÖ®ºó£¬¾ÍÔËĞĞ£¬¶øÎŞĞèµÈµ½ËùÓĞÔªËØ¶¼ÔØÈëÍê±Ï£¨ÈçÍ¼Ïñ£©
-     * loadEvent -- ¼ÓÔØÊÂ¼ş£¬waitForImages -- ÊÇ·ñµÈÍ¼Æ¬¼ÓÔØÍê
+     * Loadäº‹ä»¶åœ¨DOMæ ‘ç»“æ„å»ºå®Œä¹‹åï¼Œå°±è¿è¡Œï¼Œè€Œæ— éœ€ç­‰åˆ°æ‰€æœ‰å…ƒç´ éƒ½è½½å…¥å®Œæ¯•ï¼ˆå¦‚å›¾åƒï¼‰
+     * loadEvent -- åŠ è½½äº‹ä»¶ï¼ŒwaitForImages -- æ˜¯å¦ç­‰å›¾ç‰‡åŠ è½½å®Œ
      * */
     function addLoadEvent( loadEvent, waitForImages ) {
         if (!isCompatible()) { return false; }
 
-        // Èç¹ûµÈ´ı±ê¼ÇÎªtrue£¬ÔòÊ¹ÓÃ³£¹æµÄloadÊÂ¼ş
+        // å¦‚æœç­‰å¾…æ ‡è®°ä¸ºtrueï¼Œåˆ™ä½¿ç”¨å¸¸è§„çš„loadäº‹ä»¶
         if (waitForImages) {
             return addEvent(window, 'load', loadEvent);
         }
 
-        // ·ñÔòÊ¹ÓÃ²»Í¬µÄ·½·¨°ü×°loadEvent()
+        // å¦åˆ™ä½¿ç”¨ä¸åŒçš„æ–¹æ³•åŒ…è£…loadEvent()
 
-        // ÒÔ±ãÎªthis¹Ø¼ü×ÖÖ¸¶¨È·¶¨ÄÚÈİ£¬Í¬Ê±È·±£ÊÂ¼ş²»»áÖ´ĞĞÁ½´Î
+        // ä»¥ä¾¿ä¸ºthiså…³é”®å­—æŒ‡å®šç¡®å®šå†…å®¹ï¼ŒåŒæ—¶ç¡®ä¿äº‹ä»¶ä¸ä¼šæ‰§è¡Œä¸¤æ¬¡
         var init = function() {
 
-            // Èç¹ûÕâ¸öº¯ÊıÒÔ¼°±»µ÷ÓÃ¹ıÁË£¬Ôò·µ»Ø
+            // å¦‚æœè¿™ä¸ªå‡½æ•°ä»¥åŠè¢«è°ƒç”¨è¿‡äº†ï¼Œåˆ™è¿”å›
             if (arguments.callee.done) { return; }
 
-            // ±ê¼ÇÕâ¸öº¯ÊıÒÔ±ã¼ìÑéËüÊÇ·ñÒÑÔËĞĞ
+            // æ ‡è®°è¿™ä¸ªå‡½æ•°ä»¥ä¾¿æ£€éªŒå®ƒæ˜¯å¦å·²è¿è¡Œ
             arguments.callee.done = true;
 
-            // ÔÚdocumentµÄ»·¾³ÖĞÔËĞĞÔØÈëÊÂ¼ş
+            // åœ¨documentçš„ç¯å¢ƒä¸­è¿è¡Œè½½å…¥äº‹ä»¶
             loadEvent.apply(document, arguments);
         };
 
-        // 1.W3C·½·¨£ºÎªDOMContentLoadedÊÂ¼ş×¢²áÊÂ¼şÕìÌıÆ÷
+        // 1.W3Cæ–¹æ³•ï¼šä¸ºDOMContentLoadedäº‹ä»¶æ³¨å†Œäº‹ä»¶ä¾¦å¬å™¨
         if (document.addEventListener) {
             document.addEventListener('DOMContentLoaded', init, false);
         }
 
-        // 2.Safari·½·¨£ºÊ¹ÓÃsetInterval()º¯Êı¼ì²â
+        // 2.Safariæ–¹æ³•ï¼šä½¿ç”¨setInterval()å‡½æ•°æ£€æµ‹
         if ( /Webkit/i.test(navigator.userAgent) ) {
 
             var _timer = setInterval(function() {
@@ -144,7 +144,7 @@
             }, 10);
         }
 
-        // 3.¶ÔÓÚIE£¨Ê¹ÓÃÌõ¼ş×¢ÊÍ£©£¬¸½¼ÓÒ»¸öÔÚÔØÈë¹ı³Ì×îºóÖ´ĞĞµÄ½Å±¾£¬²¢¼ì²â½Å±¾ÊÇ·ñÔØÈëÍê³É
+        // 3.å¯¹äºIEï¼ˆä½¿ç”¨æ¡ä»¶æ³¨é‡Šï¼‰ï¼Œé™„åŠ ä¸€ä¸ªåœ¨è½½å…¥è¿‡ç¨‹æœ€åæ‰§è¡Œçš„è„šæœ¬ï¼Œå¹¶æ£€æµ‹è„šæœ¬æ˜¯å¦è½½å…¥å®Œæˆ
         /*@cc_on @*/
         /*@if (@_win32)
          document.write('<script id=__ie_onload defer src=javascript:void(0)><\/script>');
@@ -162,11 +162,11 @@
 
 
     /**
-     * »ñÈ¡ÊÂ¼ş¶ÔÏó
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * è·å–äº‹ä»¶å¯¹è±¡
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function getEventObject( W3CEvent ) {
-        // W3C¿É´«µİµ½ÊÂ¼şÕìÌıÆ÷ÖĞ£¬¶øIEÓÃwindow.event
+        // W3Cå¯ä¼ é€’åˆ°äº‹ä»¶ä¾¦å¬å™¨ä¸­ï¼Œè€ŒIEç”¨window.event
         return W3CEvent || window.event;
     }
 
@@ -174,19 +174,19 @@
 
 
     /**
-     * ·ÃÎÊÊÂ¼şµÄÄ¿±êÔªËØ
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * è®¿é—®äº‹ä»¶çš„ç›®æ ‡å…ƒç´ 
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function getTarget( eventObject ) {
         if (!isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
 
-        // W3C»òMSIEÄ£ĞÍ
+        // W3Cæˆ–MSIEæ¨¡å‹
         var target = eventObject.target || eventObject.srcElement;
 
-        // SafariÖĞ»á»ñÈ¡ÎÄ±¾½Úµã£¬¶ø·ÇÆä¸¸½Úµã
-        // ¹ÊÈôÊÇÎÄ±¾½Úµã£¬ÔòÈ¡Æä¸¸½Úµã
+        // Safariä¸­ä¼šè·å–æ–‡æœ¬èŠ‚ç‚¹ï¼Œè€Œéå…¶çˆ¶èŠ‚ç‚¹
+        // æ•…è‹¥æ˜¯æ–‡æœ¬èŠ‚ç‚¹ï¼Œåˆ™å–å…¶çˆ¶èŠ‚ç‚¹
         if (target.nodeType === xADS.node.TEXT_NODE) {
             target = target.parentNode;
         }
@@ -198,22 +198,22 @@
 
 
     /**
-     * È·¶¨µ¥»÷ÁËÄÄ¸öÊó±ê°´¼ü
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * ç¡®å®šå•å‡»äº†å“ªä¸ªé¼ æ ‡æŒ‰é”®
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function getMouseButton( eventObject ) {
         if (!isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
 
-        // Ê¹ÓÃÊÊµ±µÄÊôĞÔ³õÊ¼»¯Ò»¸ö¶ÔÏó±äÁ¿
+        // ä½¿ç”¨é€‚å½“çš„å±æ€§åˆå§‹åŒ–ä¸€ä¸ªå¯¹è±¡å˜é‡
         var buttons = {
             'left': false,
             'middle': false,
             'right': false
         };
 
-        // W3C¼ì²â eventObject¶ÔÏóµÄtoString·½·¨£¬Ó¦¸ÃÊÇMouseEvent
+        // W3Cæ£€æµ‹ eventObjectå¯¹è±¡çš„toStringæ–¹æ³•ï¼Œåº”è¯¥æ˜¯MouseEvent
         if ( eventObject.toString && eventObject.toString().indexOf('MouseEvent') != -1 ) {
             switch (eventObject.button) {
                 case 0: buttons.left = true; break;
@@ -223,7 +223,7 @@
             }
 
         } else if (eventObject.button) {
-            // MSIE·½·¨
+            // MSIEæ–¹æ³•
             switch (eventObject.button) {
                 case 1: buttons.left = true; break;
                 case 2: buttons.right = true; break;
@@ -258,8 +258,8 @@
 
 
     /**
-     * »ñÈ¡Êó±êÏà¶ÔÓÚÎÄµµµÄÎ»ÖÃ
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * è·å–é¼ æ ‡ç›¸å¯¹äºæ–‡æ¡£çš„ä½ç½®
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function getPointerPositionInDocument( eventObject ) {
         if (!isCompatible()) { return false; }
@@ -281,8 +281,8 @@
 
 
     /**
-     * »ñÈ¡¼üÅÌÃüÁî
-     * eventObject -- ÊÂ¼ş¶ÔÏó
+     * è·å–é”®ç›˜å‘½ä»¤
+     * eventObject -- äº‹ä»¶å¯¹è±¡
      * */
     function getKeyPressed( eventObject ) {
         if (!isCompatible()) { return false; }
@@ -295,8 +295,7 @@
     }
 
     window['xADS']['getKeyPressed'] = getKeyPressed;
-
-
+    
 })();
 
 

@@ -235,22 +235,16 @@
 
 
     /**
-     * 切换DOM元素的可见性display
-     * node -- 元素，value -- 设置可见性display的非none值
+     * 将连字写法转换为驼峰写法
+     * s -- 连字写法字符串
      * */
-    function toggleDisplay( node, value ) {
-        if (!isCompatible()) { return false; }
-        if (!(node = $(node))) { return false; }
-
-        if (node.style.display !== 'none') {
-            node.style.display = 'none';
-        } else {
-            node.style.display = value || '';
-        }
-        return true;
+    function camelize(s) {
+        return s.replace(/-(\w)/g, function(strMatch, p1) {
+            return p1.toUpperCase();
+        });
     }
 
-    window['xADS']['toggleDisplay'] = toggleDisplay;
+    window['xADS']['camelize'] = camelize;
 
 })();
 
