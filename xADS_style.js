@@ -105,7 +105,7 @@
         }
 
         // 返回空字符串而不是'auto'
-        return value == 'auto' ? '' : value;
+        return value === 'auto' ? '' : value;
     }
 
     window['xADS']['getStyle'] = getStyle;
