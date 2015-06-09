@@ -125,7 +125,7 @@
             arguments.callee.done = true;
 
             // 在document的环境中运行载入事件
-            loadEvent.apply(document.arguments);
+            loadEvent.apply(document, arguments);
         };
 
         // 1.W3C方法：为DOMContentLoaded事件注册事件侦听器
