@@ -16,7 +16,7 @@
      * */
     function toggleDisplay( node, value ) {
         if (!isCompatible()) { return false; }
-        if (!(node = $(node))) { return false; }
+        if (!(node = xADS.$(node))) { return false; }
 
         if (node.style.display !== 'none') {
             node.style.display = 'none';
@@ -34,7 +34,7 @@
      * element -- 元素（名），styles -- 样式对象{'color':'red', ...}
      * */
     function setStyleById( element, styles ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
 
         for (var property in styles) {
             if (!styles.hasOwnProperty(property)) {
@@ -42,7 +42,7 @@
             }
 
             if (element.style.setProperty) {
-                element.style.setProperty(xADS.camelize(property), styles[property], null);
+                element.style.setProperty(xADS.uncamelize(property, '-'), styles[property], null);
             } else {
                 element.style[xADS.camelize(property)] = styles[property];
             }
@@ -59,7 +59,7 @@
      * parent -- 根元素，tag -- 标签，className -- 类名，styles -- 样式对象{'color':'red', ...}
      * */
     function setStylesByClassName( className, tag, parent, styles ) {
-        if (!(parent = $(parent))) { return false; }
+        if (!(parent = xADS.$(parent))) { return false; }
         var elements = xADS.getElementsByClassName(className, tag, parent);
         for (var i = 0; i < elements.length; i++) {
             xADS.setStyle(elements[i], styles);
@@ -74,7 +74,7 @@
      * parent -- 根元素，tagName -- 标签名，styles -- 样式对象
      * */
     function setStylesByTagName( tagName, styles, parent ) {
-        parent = $(parent) || document;
+        parent = xADS.$(parent) || document;
         var elements = parent.getElementsByTagName(tagName);
         for (var i = 0; i < elements.length; i++) {
             xADS.setStyle(elements[i], styles);
@@ -89,7 +89,7 @@
      * element -- 元素，property -- 样式属性
      * */
     function getStyle( element, property ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
         var value = element.style[ xADS.camelize(property) ];
 
         if (!value) {
@@ -117,7 +117,7 @@
      * element -- 元素（名或元素）
      * */
     function getClassNames( element ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
 
         // 用一个空格替代多个空格，然后分割
         return element.className.replace(/\s+/, ' ').split(' ');
@@ -131,7 +131,7 @@
      * element -- 元素（名或元素），className -- 类名
      * */
     function hasClassName( element, className ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
         var classes = xADS.getClassNames(element);
         for (var i = 0; i < classes.length; i++) {
             if (classes[i] === className) {
@@ -149,7 +149,7 @@
      * element -- 元素（名或元素），className -- 类名
      * */
     function addClassName( element, className ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
 
         // 将类名加至末尾，若已有类名，则前面加个空格
         element.className += (element.className ? ' ' : '') + className;
@@ -164,7 +164,7 @@
      * element -- 元素（名或元素），className -- 类名
      * */
     function removeClassName( element, className ) {
-        if (!(element = $(element))) { return false; }
+        if (!(element = xADS.$(element))) { return false; }
         var classes = xADS.getClassNames(element);
         var length = classes.length;
 
@@ -235,7 +235,7 @@
                 if (document.styleSheets[i].media.mediaText) {
                     // DOM 方法
                     sheetMedia = document.styleSheets[i].media.mediaText.replace(/,\s*/, ',');
-                    sheetMedia = sheetMedia.replace(/,\s*$/, '');
+                    sheetMedia = sheetMedia.replace(/,\s*xADS.$/, '');
                 } else {
                     // MSIE 方法
                     sheetMedia = document.styleSheets[i].media.replace(/,\s*/, ',');

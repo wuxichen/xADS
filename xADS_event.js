@@ -15,8 +15,8 @@
      * node -- 绑定对象，type -- 事件类型，listener -- 事件回调函数
      * */
     function addEvent( node, type, listener ) {
-        if (!isCompatible()) { return false; }
-        if (!(node = $(node))) { return false; }
+        if (!xADS.isCompatible()) { return false; }
+        if (!(node = xADS.$(node))) { return false; }
 
         if (node.addEventListener) {
             // W3C 方法
@@ -44,8 +44,8 @@
      * node -- 绑定的对象，type -- 事件类型，listener -- 事件回调函数
      * */
     function removeEvent( node, type, listener ) {
-        if (!isCompatible()) { return false; }
-        if (!(node = $(node))) { return false; }
+        if (!xADS.isCompatible()) { return false; }
+        if (!(node = xADS.$(node))) { return false; }
 
         if (node.removeEventListener) {
             // W3C 方法
@@ -70,7 +70,7 @@
      * eventObject -- 事件对象
      * */
     function stopPropagation( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
         if (eventObject.stopPropagation) {
@@ -88,7 +88,7 @@
      * eventObject -- 事件对象
      * */
     function preventDefault( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
         if (eventObject.preventDefault) {
@@ -106,7 +106,7 @@
      * loadEvent -- 加载事件，waitForImages -- 是否等图片加载完
      * */
     function addLoadEvent( loadEvent, waitForImages ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         // 如果等待标记为true，则使用常规的load事件
         if (waitForImages) {
@@ -178,7 +178,7 @@
      * eventObject -- 事件对象
      * */
     function getTarget( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
 
@@ -202,7 +202,7 @@
      * eventObject -- 事件对象
      * */
     function getMouseButton( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
 
@@ -262,7 +262,7 @@
      * eventObject -- 事件对象
      * */
     function getPointerPositionInDocument( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject();
 
@@ -285,7 +285,7 @@
      * eventObject -- 事件对象
      * */
     function getKeyPressed( eventObject ) {
-        if (!isCompatible()) { return false; }
+        if (!xADS.isCompatible()) { return false; }
 
         eventObject = eventObject || getEventObject(eventObject);
 

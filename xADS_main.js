@@ -246,5 +246,65 @@
 
     window['xADS']['camelize'] = camelize;
 
+
+    /**
+     * 驼峰写法转成连字符写法
+     * s -- 驼峰写法，sep -- 连字符
+     * */
+    function uncamelize(s, sep) {
+        sep = sep || '-';
+        return s.replace(/([a-z])([A-Z])/g, function (strMatch, p1, p2){
+            return p1 + sep + p2.toLowerCase();
+        });
+    }
+
+    window['xADS']['uncamelize'] = uncamelize;
+
+
+    /**
+     * 返回一个数组，浏览器窗口的宽度和高度存于其中：[width, height]
+     * */
+    function getWindowSize(){
+        if (window.innerHeight) {
+            // 最常用
+            return {
+                'width':window.innerWidth,
+                'height':window.innerHeight
+            };
+        } else if (document.documentElement
+            && document.documentElement.clientHeight) {
+            // MSIE 严格模式
+            return {
+                'width':document.documentElement.clientWidth,
+                'height':document.documentElement.clientHeight
+            };
+        } else if (document.body) {
+            // MSIE 怪异模式
+            return {
+                'width':document.body.clientWidth,
+                'height':document.body.clientHeight
+            };
+        }
+    }
+
+    window['xADS']['getWindowSize'] = getWindowSize();
+
+
+    /**
+     * 返回一个对象，以所提供元素的宽度、高度、顶部边距和左侧边距作为属性
+     * @param e -- 元素
+     */
+    function getDimensions(e) {
+        return {
+            top     : e.offsetTop,
+            left    : e.offsetLeft,
+            width   : e.offsetWidth,
+            height  : e.offsetHeight
+        };
+    }
+
+    window['xADS']['getDimensions'] = getDimensions();
+
+
 })();
 
