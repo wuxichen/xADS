@@ -346,6 +346,50 @@
     window['xADS']['addCSSRule'] = addCSSRule;
 
 
+    /**
+     * 颜色渐变
+     * @param from -- 开始颜色（{'r':0,'g':0,'b':0}），to -- 最终颜色，callback -- 回调函数
+     * @param duration -- 渐变效果持续时间 秒（默认1秒），framesPerSecond -- 一秒的帧数
+     */
+    function fadeColor( from, to, callback, duration, framesPerSecond ) {
+
+        /**
+         * 包装setTimeout函数，用于基于帧数计算延迟时间
+         * @param color -- 应用的颜色，frame -- 处于的帧数（即从开始起应该延迟的时间）
+         */
+        function doTimeout( color, frame ) {
+            setTimeout(function(){
+                try {
+                    callback(color);
+                } catch(e) {
+                    console.log(e);
+                }
+            }, (duration * 1000 / framesPerSecond)*frame );
+        }
+
+        var duration = duration || 1;
+        var framesPerSecond = framesPerSecond || duration*15;
+
+        var r, g, b;
+        var frame = 1;
+
+        // 设置起始颜色 第0帧
+        doTimeout('rgb(' + from.r + ',' + from.g + ',' + from.b + ')', 0);
+
+        // 计算两帧之间的RGB值的改变量，并加入时间队列
+        while (frame <= framesPerSecond) {
+            r = Math.ceil(from.r + (to.r-from.r) * (frame / framesPerSecond));
+            g = Math.ceil(from.g + (to.g-from.g) * (frame / framesPerSecond));
+            b = Math.ceil(from.b + (to.b-from.b) * (frame / framesPerSecond));
+
+            doTimeout('rgb(' + r + ',' + g + ',' + b + ')', frame);
+            frame++;
+        }
+
+    }
+
+    window['xADS']['fadeColor'] = fadeColor;
+
 })();
 
 
