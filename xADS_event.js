@@ -289,7 +289,7 @@
 
         eventObject = eventObject || getEventObject(eventObject);
 
-        var code = eventObject.keyCode;
+        var code = eventObject.keyCode || eventObject.charCode;
         var value = String.fromCharCode(code);
         return {'code': code, 'value': value};
     }

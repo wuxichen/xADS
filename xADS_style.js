@@ -58,8 +58,7 @@
      * 通过类名修改多个元素样式
      * parent -- 根元素，tag -- 标签，className -- 类名，styles -- 样式对象{'color':'red', ...}
      * */
-    function setStylesByClassName( className, tag, parent, styles ) {
-        if (!(parent = xADS.$(parent))) { return false; }
+    function setStylesByClassName( className, styles, tag, parent ) {
         var elements = xADS.getElementsByClassName(className, tag, parent);
         for (var i = 0; i < elements.length; i++) {
             xADS.setStyle(elements[i], styles);

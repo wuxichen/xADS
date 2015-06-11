@@ -85,6 +85,7 @@
     function getElementsByClassName( className, tag, parent ) {
         if (!isCompatible()) { return false; }
 
+        tag = tag || '*';
         parent = parent || document;
         if (!(parent = $(parent))) { return false; }
 
@@ -138,7 +139,7 @@
 
         if (parent.firstChild) {
             // 如果存在一个子节点，则插在这个子节点之前
-            parent.firstChild.insertBefore(newChild);
+            parent.insertBefore(newChild, parent.firstChild);
         } else {
             // 如果没有子节点，则直接插入到末尾
             parent.appendChild(newChild);
@@ -214,7 +215,7 @@
         if (!isCompatible()) { return false; }
 
         var root = node || window.document;
-        returnedFromParent = func(root, depth++, returnedFromParent);
+        returnedFromParent = func.call(root, depth++, returnedFromParent);
 
         if (root.attributes) {
             for (var i = 0; i < root.attributes.length; i++) {
@@ -287,7 +288,7 @@
         }
     }
 
-    window['xADS']['getWindowSize'] = getWindowSize();
+    window['xADS']['getWindowSize'] = getWindowSize;
 
 
     /**
@@ -303,7 +304,7 @@
         };
     }
 
-    window['xADS']['getDimensions'] = getDimensions();
+    window['xADS']['getDimensions'] = getDimensions;
 
 
 })();
