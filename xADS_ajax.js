@@ -602,8 +602,9 @@
 
     window['xADS']['actionPager'] = actionPager;
 
+
     /**
-     * a helper method to clone a JavaScript object
+     * 拷贝JavaScript对象
      */
     function clone(myObj) {
         if(typeof(myObj) != 'object') return myObj;
@@ -615,6 +616,106 @@
         return myNewObj;
     }
 
+    /**
+     * 请求队列
+     */
+    var requestQueue = [];
+
+    /**
+     * xADS.ajaxRequest方法启用排队功能的包装对象
+     */
+    function ajaxRequestQueue(url,options,queue) {
+        queue = queue || 'default';
+
+        // 将可选的侦听器包装在一个函数中（可选对象必须唯一）
+        options = clone(options) || {};
+        if(!requestQueue[queue]) requestQueue[queue] = [];
+
+        // 当前一次请求完成时，需要使用completeListener调用队列中的下一个请求
+
+        // 取得旧的侦听器
+        var userCompleteListener = options.completeListener;
+
+        // 添加新侦听器
+        options.completeListener = function() {
+
+            // 如果存在旧的侦听器则首先调用它
+            if(userCompleteListener) {
+                // this指向 请求对象
+                userCompleteListener.apply(this,arguments);
+            }
+
+            // 从队列中移除这个请求
+            requestQueue[queue].shift();
+
+            // 调用队列中的下一项
+            if(requestQueue[queue][0]) {
+                // 请求保存在req属性中
+                var q = requestQueue[queue][0].req.send(
+                    requestQueue[queue][0].send
+                );
+            }
+        }
+
+        // 如果发生了错误，应该通过调用相应的错误处理方法取消队列中的其他请求
+
+        // 取得旧的侦听器
+        var userErrorListener = options.errorListener;
+
+        // 添加新的侦听器
+        options.errorListener = function() {
+
+            if(userErrorListener) {
+                userErrorListener.apply(this,arguments);
+            };
+
+            // 由于已经调用了错误侦听器，所以移除
+            requestQueue[queue].shift();
+
+            // 由于出错需要取消队列中的其余请求，但首先要调用每个请求的errorListener
+            // 通过调用队列中下一个错误侦听器就会清除所有排队的请求，因为在链中的调用是依次发生的
+
+            // 检测队列是否还存在请求
+            if(requestQueue[queue].length) {
+
+                // 取得下一项
+                var q = requestQueue[queue].shift();
+
+                // 停止请求
+                q.req.abort();
+
+                // 伪造请求对象，以便errorListener认为请求已经完成并相应地运行
+
+                var fakeRequest = new Object();
+
+                // 设置请求完成但失败的状态
+                fakeRequest.status = 0;
+                fakeRequest.readyState = 4
+
+                fakeRequest.responseText = null;
+                fakeRequest.responseXML = null;
+
+                fakeRequest.statusText = 'A request in the queue received an error';
+                q.error.apply(fakeRequest);
+            }
+
+        }
+
+        // 将请求加入到队列中
+        requestQueue[queue].push({
+            req:getRequestObject(url,options),
+            send:options.send,
+            error:options.errorListener
+        });
+
+
+        // 如果队列的长度表明只有一个，则调用请求
+        if(requestQueue[queue].length == 1) {
+            ajaxRequest(url,options);
+        }
+    }
+
+    window['xADS']['ajaxRequestQueue'] = ajaxRequestQueue;
 
 
 
