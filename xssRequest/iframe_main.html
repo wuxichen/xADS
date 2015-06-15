@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<iframe id="iframe" src="iframe_sub.html" onload = "test()" style="display: none"></iframe>
+<script type="text/javascript">
+//    document.domain = 'localhost';//设置成主域
+    function test(){
+        var iframe = document.getElementById('iframe');
+        console.log(document.getElementById('iframe').contentWindow);//contentWindow 可取得子窗口的 window 对象
+        console.log(iframe.contentWindow.iframeSub);
+    }
+</script>
+
+</body>
+</html>
