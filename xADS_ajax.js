@@ -173,7 +173,7 @@
         // 开启请求
         req.open(options.method, url, true);
         // 添加特殊头部信息以标识请求
-        req.setRequestHeader('X-ADS-Ajax-Reques', 'AjaxRequest');
+        req.setRequestHeader('X-ADS-Ajax-Request', 'AjaxRequest');
         return req;
     }
 

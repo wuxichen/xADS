@@ -208,7 +208,7 @@ var addProgressBar = function( form, modificationHandler ) {
         var progressWatcher = function() {
 
             // 使用唯一ID来请求
-            ADS.ajaxRequest(form.action 
+            xADS.ajaxRequest(form.action
                 + (form.action.indexOf('?') == -1 ? '?' : '&') 
                 + 'key=' + uniqueID + '&sim=' + (++counter) , {
 
