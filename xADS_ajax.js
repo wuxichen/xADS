@@ -537,6 +537,7 @@
             }
         },
 
+
         register: function( regex, method, context ) {
             var obj = {'regex':regex};
             if(context) {
@@ -603,6 +604,7 @@
     window['xADS']['actionPager'] = actionPager;
 
 
+    // === 异步顺序问题解决 ==============================
     /**
      * 拷贝JavaScript对象
      */
